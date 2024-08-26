@@ -365,7 +365,11 @@ class LoadedModel:
         self.model = model
         self.memory_required = memory_required
         self.model_accelerated = False
-        self.device = model.load_device
+        if self.model.model.__class__.__name__ == 'JointTextEncoder':
+            self.device = torch.device('cuda:1')
+        else:
+            self.device = model.load_device
+        print(f"{self.model.model.__class__.__name__} loads to {self.device}")
 
     def model_memory(self):
         return self.model.model_size()
@@ -563,7 +567,11 @@ def load_models_gpu(models, memory_required=0):
 
     for loaded_model in models_to_load:
         model = loaded_model.model
-        torch_dev = model.load_device
+        if model.__class__.__name__ == 'JointTextEncoder':
+            torch_dev = torch.device('cuda:1')
+        else:
+            torch_dev = model.load_device
+
         if is_device_cpu(torch_dev):
             vram_set_state = VRAMState.DISABLED
         else:
