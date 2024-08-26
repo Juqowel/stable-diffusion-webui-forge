@@ -583,7 +583,7 @@ def load_models_gpu(models, memory_required=0):
             model_memory = loaded_model.model_memory_required(torch_dev)
             current_free_mem = get_free_memory(torch_dev)
             inference_memory = minimum_inference_memory()
-            estimated_remaining_memory = current_free_mem - model_memory - inference_memory
+            estimated_remaining_memory = 1024 * 1024 # current_free_mem - model_memory - inference_memory
 
             print(f"[Memory Management] Current Free GPU Memory: {current_free_mem / (1024 * 1024):.2f} MB")
             print(f"[Memory Management] Required Model Memory: {model_memory / (1024 * 1024):.2f} MB")
