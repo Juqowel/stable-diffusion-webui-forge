@@ -491,7 +491,7 @@ def free_memory(memory_required, device, keep_loaded=[], free_all=False):
         if not offload_everything:
             free_memory = get_free_memory(device)
             print(f"[Unload] Current free memory is {free_memory / (1024 * 1024):.2f} MB ... ")
-            if free_memory > memory_required:
+            if free_memory > 500:
                 break
         shift_model = current_loaded_models[i]
         if shift_model.device == device:
